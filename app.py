@@ -168,8 +168,12 @@ def extract_text(current_user, image_uuid):
     
     byte_image = PILImage.open(io.BytesIO(image.image_data))
     text = image_to_string(byte_image)
-    return make_response(jsonify({'text': text}), 200)
+    if text:
+        return make_response(jsonify({'text': text}), 200)
+    else:
+        return make_response(jsonify({'message': 'No text found'}), 204)
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    debug = not IS_PRODUCTION
+    app.run(debug=debug, host="0.0.0.0", port=5000)
