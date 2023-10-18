@@ -1,29 +1,20 @@
-FROM ubuntu:18.04
+FROM ubuntu:latest
 
-# set work directory
 WORKDIR /usr/src/app
 
-# set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-RUN apt-get update && apt-get install -y \
-    tesseract-ocr \
-    python3-pip \
-    python3-dev \
-    # build-essential \
-    libssl-dev \
-    libffi-dev \
-    libpq-dev \
-    # postgresql-client \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update \
+    && apt-get install -y tesseract-ocr \
+    && apt-get install -y libtesseract-dev \
+    && apt-get install -y python3 python3-pip \
+    && apt install -y libsm6 libxext6
 
-# install dependencies
-RUN pip3 install --upgrade pip
+RUN apt-get install -y python3-distutils python3-pip
 COPY ./requirements.txt .
 RUN pip3 install -r requirements.txt
 
-# copy project
 COPY . .
 
 ENTRYPOINT ["python3"]
