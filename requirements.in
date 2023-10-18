@@ -1,0 +1,9 @@
+pip
+pip-tools
+python-dotenv
+flask
+flask_sqlalchemy
+PyJWT
+werkzeug
+pillow
+pytesseract
