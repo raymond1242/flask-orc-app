@@ -7,3 +7,4 @@ PyJWT
 werkzeug
 pillow
 pytesseract
+psycopg2-binary

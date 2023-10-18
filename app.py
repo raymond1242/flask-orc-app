@@ -17,7 +17,13 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
+IS_PRODUCTION = os.getenv('ENVIRONMENT') == 'production'
+
+if IS_PRODUCTION:
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
 db = SQLAlchemy(app)
@@ -25,18 +31,18 @@ db = SQLAlchemy(app)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50))
+    name = db.Column(db.String)
     email = db.Column(db.String, unique=True)
-    password = db.Column(db.String(50))
+    password = db.Column(db.String)
 
 
 class Image(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    uuid = db.Column(db.String(50), unique=True)
+    uuid = db.Column(db.String, unique=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     image_data = db.Column(db.LargeBinary, nullable=False)
-    mime_type = db.Column(db.String(50))
+    mime_type = db.Column(db.String)
 
 
 @app.route("/")

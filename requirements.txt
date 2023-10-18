@@ -36,6 +36,8 @@ pillow==10.1.0
     #   pytesseract
 pip-tools==7.3.0
     # via -r requirements.in
+psycopg2-binary==2.9.9
+    # via -r requirements.in
 pyjwt==2.8.0
     # via -r requirements.in
 pyproject-hooks==1.0.0
